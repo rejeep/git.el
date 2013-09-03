@@ -1,13 +1,13 @@
-;;; git.el --- TODO
+;;; git.el --- Git API
 
 ;; Copyright (C) 2013 Johan Andersson
 
 ;; Author: Johan Andersson <johan.rejeep@gmail.com>
 ;; Maintainer: Johan Andersson <johan.rejeep@gmail.com>
 ;; Version: 0.0.1
-;; Keywords: cli, argv
+;; Keywords: git
 ;; URL: http://github.com/rejeep/git.el
-;; Package-Requires: ((s "1.6.1") (dash "1.5.0") (f "0.4.1") (cl-lib "0.3"))
+;; Package-Requires: ((s "1.7.0") (dash "2.2.0") (f "0.10.0"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -30,10 +30,173 @@
 
 ;;; Code:
 
-(require 'cl-lib)
 (require 's)
 (require 'dash)
 (require 'f)
+
+(defvar git-executable
+  (executable-find "git")
+  "Git executable.")
+
+(defvar git-repo nil
+  "Path to current working repo.")
+
+(defconst git-buffer-name "*git*"
+  "")
+
+(defmacro git-run (&rest args)
+  "Run git command.
+
+ARGS are passed as argument to the `git-executable'. To enable an
+option, use the `option' directive."
+  `(let ((default-directory (f-full git-repo)))
+     (with-temp-buffer
+       (apply
+        'call-process
+        (append
+         (list git-executable nil (current-buffer) nil)
+         (-flatten
+          (-reject
+           'null
+           (-map
+            (lambda (arg)
+              (pcase arg
+                (`(option ,name)
+                 (when (and (boundp name) (eval name))
+                   (concat "--" (symbol-name name))))
+                (_ (eval arg))))
+            ',args)))))
+       (buffer-string))))
+
+;; Todo: bare repos
+(defun git-repo? (directory)
+  "Return true if there is a git repo in DIRECTORY, false otherwise."
+  (f-dir? (f-expand ".git" directory)))
+
+(defun git-branch? (branch)
+  "Return true if there's a branch called BRANCH."
+  (-contains? (git-branch) branch))
+
+(defun git-tag? (tag)
+  "Return true if there's a tag called TAG."
+  (-contains? (git-tag) tag))
+
+(defun git-on-branch ()
+  "Return currently active branch."
+  (git-run "rev-parse" (option abbrev-ref) "HEAD"))
+
+(defun git-on-branch? (branch)
+  "Return true if BRANCH is currently active."
+  (equal branch (git-on-branch)))
+
+(defun git-add (&optional path)
+  "Add PATH or everything."
+  (git-run "add" (or path ".")))
+
+(defun git-branch (&optional branch)
+  "Create BRANCH or list all available branches."
+  (if branch
+      (if (git-branch? branch)
+          (error "Branch already exists %s" branch)
+        (git-run "branch" branch))
+    (-map
+     (lambda (line)
+       (if (s-starts-with? "*" line)
+           (substring line 2)
+         line))
+     (-reject 's-blank? (-map 's-trim (s-lines (git-run "branch")))))))
+
+(defun git-checkout (branch)
+  "Checkout BRANCH."
+  (if (git-branch? branch)
+      (unless (git-on-branch? branch)
+        (git-run "checkout" branch))
+    (error "No such branch %s" branch)))
+
+(defun git-clone (url &optional dir)
+  "Clone URL to DIR (if present)."
+  (git-run "clone" url dir))
+
+;; Todo: if expression contains option, must recurse down...
+(defun git-commit (message &rest files)
+  "Commit FILES (or added files) with MESSAGE."
+  (let ((all (not files)))
+    (git-run "commit" (option message) message (or files (option all)))))
+
+;; Todo: not working
+(defun git-diff (&optional blob-a blob-b path)
+  "Diff PATH between BLOB-A and BLOB-B."
+  (git-run "diff" (or blob-a (git-on-branch)) (or blob-b "master") path))
+
+(defun git-fetch (&optional repo ref)
+  "..."
+  )
+
+(defun git-init (&optional dir bare)
+  "Create new Git repo at DIR (or `git-repo').
+
+If BARE is true, create a bare repo."
+  (let ((git-repo (or git-repo dir)))
+    (git-run "init" (option bare))))
+
+(defun git-log (&optional branch)
+  "Log history on BRANCH."
+  (git-run "log" branch))
+
+(defun git-pull (&optional repo ref)
+  "..."
+  )
+
+(defun git-push (&optional repo ref)
+  "..."
+  )
+
+(defun git-remote ()
+  "..."
+  )
+
+(defun git-remote-add (name url)
+  "..."
+  )
+
+(defun git-remote-remove (name)
+  "..."
+  )
+
+;; Todo: What about soft?
+(defun git-reset (commit &optional hard)
+  "..."
+  )
+
+(defun git-rm (path)
+  "..."
+  )
+
+(defun git-show (&optional commit)
+  "Show COMMIT."
+  (git-run "show" commit))
+
+(defun git-stash ()
+  "Stash!"
+  (git-run "stash"))
+
+;; Todo: Option for keeping stash.
+(defun git-stash-pop ()
+  "Apply stash on top of stack and remove stash."
+  (git-run "stash" "pop"))
+
+;; Todo: Parse this and return an object
+(defun git-status ()
+  "Show status information."
+  (git-run "status"))
+
+(defun git-tag (&optional tag)
+  "Create TAG or list all available tags."
+  (if tag
+      (if (git-tag? tag)
+          (error "Tag already exists %s" tag)
+        (git-run "tag" tag))
+    (-reject 's-blank? (-map 's-trim (s-lines (git-run "tag"))))))
 
 (provide 'git)
 
