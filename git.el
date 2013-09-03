@@ -182,7 +182,6 @@ If BARE is true, create a bare repo."
   "Apply stash on top of stack and remove stash."
   (git-run "stash" "pop"))
 
-;; Todo: Parse this and return an object
 (defun git-status ()
   "Show status information."
   (git-run "status"))
