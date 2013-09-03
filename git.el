@@ -41,9 +41,6 @@
 (defvar git-repo nil
   "Path to current working repo.")
 
-(defconst git-buffer-name "*git*"
-  "")
-
 (defmacro git-run (&rest args)
   "Run git command.
 
