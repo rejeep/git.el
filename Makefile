@@ -4,10 +4,13 @@ CASK ?= cask
 all: test
 
 test: clean-elc
-	${CASK} exec ert-runner
+	${MAKE} unit
 	${MAKE} compile
-	${CASK} exec ert-runner
+	${MAKE} unit
 	${MAKE} clean-elc
+
+unit:
+	${CASK} exec ert-runner
 
 compile:
 	${CASK} exec ${EMACS} -Q -batch -f batch-byte-compile git.el
