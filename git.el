@@ -65,10 +65,15 @@ option, use the `option' directive."
             ',args)))))
        (buffer-string))))
 
-;; Todo: bare repos
 (defun git-repo? (directory)
   "Return true if there is a git repo in DIRECTORY, false otherwise."
-  (f-dir? (f-expand ".git" directory)))
+  (or
+   (f-dir? (f-expand ".git" directory))
+   (and
+    (f-dir? (f-expand "info" directory))
+    (f-dir? (f-expand "objects" directory))
+    (f-dir? (f-expand "refs" directory))
+    (f-file? (f-expand "HEAD" directory)))))
 
 (defun git-branch? (branch)
   "Return true if there's a branch called BRANCH."
