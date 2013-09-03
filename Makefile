@@ -13,6 +13,6 @@ compile:
 	${CASK} exec ${EMACS} -Q -batch -f batch-byte-compile git.el
 
 clean-elc:
-	rm git.elc
+	rm -f git.elc
 
 .PHONY:	all test docs
