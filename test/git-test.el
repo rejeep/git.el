@@ -109,6 +109,15 @@
 
 ;;;; git-tag?
 
+(ert-deftest git-tag?-test/does-not-exist ()
+  (with-initialized-git-repo
+   (should-not (git-tag? "foo"))))
+
+(ert-deftest git-tag?-test/exists ()
+  (with-initialized-git-repo
+   (git-tag "foo")
+   (should (git-tag? "foo"))))
+
 
 ;;;; git-on-branch
 
