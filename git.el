@@ -30,6 +30,8 @@
 
 ;;; Code:
 
+;; Todo: no-pager
+
 (require 's)
 (require 'dash)
 (require 'f)
