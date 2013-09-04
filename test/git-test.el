@@ -118,6 +118,27 @@
 
 ;;;; git-add
 
+(ert-deftest git-add-test/file ()
+  (with-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (should (equal (git-staged-files) '("foo")))))
+
+(ert-deftest git-add-test/directory ()
+  (with-git-repo
+   (f-mkdir "foo")
+   (f-touch (f-join "foo" "bar"))
+   (git-add (f-join "foo" "bar"))
+   (should (equal (git-staged-files) '("foo/bar")))))
+
+(ert-deftest git-add-test/all ()
+  (with-git-repo
+   (f-mkdir "foo")
+   (f-touch (f-join "foo" "bar"))
+   (f-touch "bar")
+   (git-add)
+   (should (equal (git-staged-files) '("bar" "foo/bar")))))
+
 
 ;;;; git-branch
 
