@@ -186,13 +186,50 @@
 ;;;; git-push
 
 
-;;;; git-remote
+;;;; git-remotes/git-remote-add
 
-
-;;;; git-remote-add
+(ert-deftest git-remotes-test/no-remote ()
+  (with-git-repo
+   (should-not (git-remotes))))
+
+(ert-deftest git-remotes-test/single-remote ()
+  (with-git-repo
+   (git-remote-add "foo" "bar")
+   (should (equal (git-remotes) '("foo")))))
+
+(ert-deftest git-remotes-test/multiple-remotes ()
+  (with-git-repo
+   (git-remote-add "foo" "bar")
+   (git-remote-add "baz" "qux")
+   (should (equal (git-remotes) '("baz" "foo")))))
 
 
 ;;;; git-remote-remove
+
+(ert-deftest git-remote-remove-test/does-not-exist ()
+  (with-mock
+   (mock (error "No such remote %s" "foo"))
+   (with-git-repo
+    (git-remote-remove "foo"))))
+
+(ert-deftest git-remote-remove-test/exists ()
+  (with-git-repo
+   (git-remote-add "foo" "bar")
+   (git-remote-add "baz" "qux")
+   (git-remote-remove "foo")
+   (should (equal (git-remotes) '("baz")))))
+
+
+;;;; git-remote?
+
+(ert-deftest git-remote?-test/does-not-exist ()
+  (with-git-repo
+   (should-not (git-remote? "foo"))))
+
+(ert-deftest git-remote?-test/exists ()
+  (with-git-repo
+   (git-remote-add "foo" "bar")
+   (should (git-remote? "foo"))))
 
 
 ;;;; git-reset
@@ -214,4 +251,3 @@
 
 
 ;;;; git-tag
-

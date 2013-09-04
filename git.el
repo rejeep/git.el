@@ -155,17 +155,23 @@ If BARE is true, create a bare repo."
   "..."
   )
 
-(defun git-remote ()
-  "..."
-  )
+(defun git-remote? (name)
+  "Return true if remote with NAME exists, false otherwise."
+  (-contains? (git-remotes) name))
+
+(defun git-remotes ()
+  "Return list of all remotes."
+  (git--lines (git-run "remote")))
 
 (defun git-remote-add (name url)
-  "..."
-  )
+  "Add remote with NAME and URL."
+  (git-run "remote" "add" name url))
 
 (defun git-remote-remove (name)
-  "..."
-  )
+  "Remove remote with NAME."
+  (if (git-remote? name)
+      (git-run "remote" "remove" name)
+    (error "No such remote %s" name)))
 
 ;; Todo: What about soft?
 (defun git-reset (commit &optional hard)

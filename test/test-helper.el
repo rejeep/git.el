@@ -1,5 +1,7 @@
 (require 'ert)
 (require 'f)
+(require 'el-mock)
+(require 'cl)
 
 (require 'git (f-expand "git" (f-parent (f-dirname (f-this-file)))))
 
