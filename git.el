@@ -214,10 +214,6 @@ If BARE is true, create a bare repo."
   "Apply and keep stash with MESSAGE (or first stash)."
   (git-run "stash" "apply" (git--stash-find message)))
 
-(defun git-status ()
-  "Show status information."
-  (git-run "status"))
-
 (defun git-tag (tag)
   "Create TAG."
   (if (git-tag? tag)

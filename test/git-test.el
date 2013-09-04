@@ -369,9 +369,6 @@
                                   (:name "stash@{1}" :branch "master" :message "first"))))))
 
 
-;;;; git-status
-
-
 ;;;; git-tag/git-tags
 
 (ert-deftest git-tag-test/no-tags ()
