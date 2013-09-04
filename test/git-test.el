@@ -142,6 +142,25 @@
 
 ;;;; git-branch
 
+(ert-deftest git-branch-test/not-initialized ()
+  (with-git-repo
+   (should-not (git-branch))))
+
+(ert-deftest git-branch-test/master-only ()
+  (with-initialized-git-repo
+   (should (equal (git-branch) '("master")))))
+
+(ert-deftest git-branch-test/single ()
+  (with-initialized-git-repo
+   (git-branch "foo")
+   (should (equal (git-branch) '("foo" "master")))))
+
+(ert-deftest git-branch-test/multiple ()
+  (with-initialized-git-repo
+   (git-branch "foo")
+   (git-branch "bar")
+   (should (equal (git-branch) '("bar" "foo" "master")))))
+
 
 ;;;; git-checkout
 

@@ -18,3 +18,10 @@
   `(with-sandbox
     (git-init ,git-sandbox-path)
     ,@body))
+
+(defmacro with-initialized-git-repo (&rest body)
+  `(with-git-repo
+    (f-touch "README")
+    (git-add "README")
+    (git-commit "Initial commit." "README")
+    ,@body))
