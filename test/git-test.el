@@ -20,33 +20,28 @@
 ;;;; git-untracked-files
 
 (ert-deftest git-untracked-files-test/no-files ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (should-not (git-untracked-files))))
 
 (ert-deftest git-untracked-files-test/single-file ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (f-touch "foo")
    (should (equal (git-untracked-files) '("foo")))))
 
 (ert-deftest git-untracked-files-test/multiple-files ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (f-touch "foo")
    (f-touch "bar")
    (should (equal (git-untracked-files) '("bar" "foo")))))
 
 (ert-deftest git-untracked-files-test/file-in-directory ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (f-mkdir "foo")
    (f-touch (f-join "foo" "bar"))
    (should (equal (git-untracked-files) '("foo/bar")))))
 
 (ert-deftest git-untracked-files-test/with-staged-files ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (f-mkdir "foo")
    (f-touch (f-join "foo" "bar"))
    (f-touch (f-join "foo" "baz"))
@@ -57,20 +52,17 @@
 ;;;; git-staged-files
 
 (ert-deftest git-staged-files-test/no-files ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (should-not (git-staged-files))))
 
 (ert-deftest git-staged-files-test/single-file ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (f-touch "foo")
    (git-add "foo")
    (should (equal (git-staged-files) '("foo")))))
 
 (ert-deftest git-staged-files-test/multiple-files ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (f-touch "foo")
    (f-touch "bar")
    (git-add "foo")
@@ -78,16 +70,14 @@
    (should (equal (git-staged-files) '("bar" "foo")))))
 
 (ert-deftest git-staged-files-test/file-in-directory ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (f-mkdir "foo")
    (f-touch (f-join "foo" "bar"))
    (git-add (f-join "foo" "bar"))
    (should (equal (git-staged-files) '("foo/bar")))))
 
 (ert-deftest git-staged-files-test/with-untracked-files ()
-  (with-sandbox
-   (git-init git-sandbox-path)
+  (with-git-repo
    (f-mkdir "foo")
    (f-touch (f-join "foo" "bar"))
    (f-touch (f-join "foo" "baz"))

@@ -13,3 +13,8 @@
        (f-delete git-sandbox-path :force))
      (f-mkdir git-sandbox-path)
      ,@body))
+
+(defmacro with-git-repo (&rest body)
+  `(with-sandbox
+    (git-init ,git-sandbox-path)
+    ,@body))
