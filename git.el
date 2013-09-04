@@ -204,6 +204,11 @@ If BARE is true, create a bare repo."
   (git--lines
    (git-run "ls-files" "--other" "--exclude-standard")))
 
+(defun git-staged-files ()
+  "Return list of staged files."
+  (git--lines
+   (git-run "diff" "--cached" "--name-only")))
+
 
 ;;;; Helpers
 
