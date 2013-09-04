@@ -93,3 +93,85 @@
    (f-touch (f-join "foo" "baz"))
    (git-add (f-join "foo" "bar"))
    (should (equal (git-staged-files) '("foo/bar")))))
+
+
+;;;; git-run
+
+
+;;;; git-repo?
+
+
+;;;; git-branch?
+
+
+;;;; git-tag?
+
+
+;;;; git-on-branch
+
+
+;;;; git-on-branch?
+
+
+;;;; git-add
+
+
+;;;; git-branch
+
+
+;;;; git-checkout
+
+
+;;;; git-clone
+
+
+;;;; git-commit
+
+
+;;;; git-diff
+
+
+;;;; git-fetch
+
+
+;;;; git-init
+
+
+;;;; git-log
+
+
+;;;; git-pull
+
+
+;;;; git-push
+
+
+;;;; git-remote
+
+
+;;;; git-remote-add
+
+
+;;;; git-remote-remove
+
+
+;;;; git-reset
+
+
+;;;; git-rm
+
+
+;;;; git-show
+
+
+;;;; git-stash
+
+
+;;;; git-stash-pop
+
+
+;;;; git-status
+
+
+;;;; git-tag
+
