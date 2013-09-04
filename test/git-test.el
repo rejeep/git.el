@@ -140,26 +140,26 @@
    (should (equal (git-staged-files) '("bar" "foo/bar")))))
 
 
-;;;; git-branch
+;;;; git-branch/git-branches
 
 (ert-deftest git-branch-test/not-initialized ()
   (with-git-repo
-   (should-not (git-branch))))
+   (should-not (git-branches))))
 
 (ert-deftest git-branch-test/master-only ()
   (with-initialized-git-repo
-   (should (equal (git-branch) '("master")))))
+   (should (equal (git-branches) '("master")))))
 
 (ert-deftest git-branch-test/single ()
   (with-initialized-git-repo
    (git-branch "foo")
-   (should (equal (git-branch) '("foo" "master")))))
+   (should (equal (git-branches) '("foo" "master")))))
 
 (ert-deftest git-branch-test/multiple ()
   (with-initialized-git-repo
    (git-branch "foo")
    (git-branch "bar")
-   (should (equal (git-branch) '("bar" "foo" "master")))))
+   (should (equal (git-branches) '("bar" "foo" "master")))))
 
 
 ;;;; git-checkout

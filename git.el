@@ -77,7 +77,7 @@ option, use the `option' directive."
 
 (defun git-branch? (branch)
   "Return true if there's a branch called BRANCH."
-  (-contains? (git-branch) branch))
+  (-contains? (git-branches) branch))
 
 (defun git-tag? (tag)
   "Return true if there's a tag called TAG."
@@ -95,18 +95,20 @@ option, use the `option' directive."
   "Add PATH or everything."
   (git-run "add" (or path ".")))
 
-(defun git-branch (&optional branch)
-  "Create BRANCH or list all available branches."
-  (if branch
-      (if (git-branch? branch)
-          (error "Branch already exists %s" branch)
-        (git-run "branch" branch))
-    (-map
-     (lambda (line)
-       (if (s-starts-with? "*" line)
-           (substring line 2)
-         line))
-     (-reject 's-blank? (-map 's-trim (s-lines (git-run "branch")))))))
+(defun git-branch (branch)
+  "Create BRANCH."
+  (if (git-branch? branch)
+      (error "Branch already exists %s" branch)
+    (git-run "branch" branch)))
+
+(defun git-branches ()
+  "List all available branches."
+  (-map
+   (lambda (line)
+     (if (s-starts-with? "*" line)
+         (substring line 2)
+       line))
+   (git--lines (git-run "branch"))))
 
 (defun git-checkout (branch)
   "Checkout BRANCH."
