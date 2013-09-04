@@ -16,32 +16,35 @@
    (git-init git-sandbox-path :bare)
    (should (git-repo? git-sandbox-path))))
 
-(ert-deftest git-untracked-test/no-files ()
+
+;;;; git-untracked-files
+
+(ert-deftest git-untracked-files-test/no-files ()
   (with-sandbox
    (git-init git-sandbox-path)
    (should-not (git-untracked-files))))
 
-(ert-deftest git-untracked-test/single-file ()
+(ert-deftest git-untracked-files-test/single-file ()
   (with-sandbox
    (git-init git-sandbox-path)
    (f-touch "foo")
    (should (equal (git-untracked-files) '("foo")))))
 
-(ert-deftest git-untracked-test/multiple-files ()
+(ert-deftest git-untracked-files-test/multiple-files ()
   (with-sandbox
    (git-init git-sandbox-path)
    (f-touch "foo")
    (f-touch "bar")
    (should (equal (git-untracked-files) '("bar" "foo")))))
 
-(ert-deftest git-untracked-test/file-in-directory ()
+(ert-deftest git-untracked-files-test/file-in-directory ()
   (with-sandbox
    (git-init git-sandbox-path)
    (f-mkdir "foo")
    (f-touch (f-join "foo" "bar"))
    (should (equal (git-untracked-files) '("foo/bar")))))
 
-(ert-deftest git-untracked-test/with-staged-files ()
+(ert-deftest git-untracked-files-test/with-staged-files ()
   (with-sandbox
    (git-init git-sandbox-path)
    (f-mkdir "foo")
