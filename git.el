@@ -43,6 +43,9 @@
 (defvar git-repo nil
   "Path to current working repo.")
 
+(defconst git-stash-re "^\\(.+?\\): \\(?:WIP on\\|On\\) \\(.+\\): \\(.+\\)$"
+  "Regular expression matching a stash.")
+
 (defmacro git-run (&rest args)
   "Run git command.
 
@@ -188,14 +191,28 @@ If BARE is true, create a bare repo."
   "Show COMMIT."
   (git-run "show" commit))
 
-(defun git-stash ()
+(defun git-stash (&optional name)
   "Stash!"
-  (git-run "stash"))
+  (git-run "stash" "save" "--" name))
 
-;; Todo: Option for keeping stash.
-(defun git-stash-pop ()
-  "Apply stash on top of stack and remove stash."
-  (git-run "stash" "pop"))
+(defun git-stashes ()
+  "Return list of stashes."
+  (let ((stashes (git--lines (git-run "stash" "list"))))
+    (-map
+     (lambda (stash)
+       (let ((matches (s-match git-stash-re stash)))
+         (list :name (nth 1 matches)
+               :branch (nth 2 matches)
+               :message (nth 3 matches))))
+     stashes)))
+
+(defun git-stash-pop (&optional message)
+  "Apply and remove stash with MESSAGE (or first stash)."
+  (git-run "stash" "pop" (git--stash-find message)))
+
+(defun git-stash-apply (&optional message)
+  "Apply and keep stash with MESSAGE (or first stash)."
+  (git-run "stash" "apply" (git--stash-find message)))
 
 (defun git-status ()
   "Show status information."
@@ -224,6 +241,14 @@ If BARE is true, create a bare repo."
 
 (defun git--lines (string)
   (-reject 's-blank? (-map 's-trim (s-lines string))))
+
+(defun git--stash-find (message)
+  (plist-get
+   (-first
+    (lambda (stash)
+      (equal (plist-get stash :message) message))
+    (git-stashes))
+   :name))
 
 (provide 'git)
 
