@@ -90,6 +90,19 @@
 
 ;;;; git-repo?
 
+(ert-deftest git-repo?-test/is-repo ()
+  (with-git-repo
+   (should (git-repo? git-sandbox-path))))
+
+(ert-deftest git-repo?-test/is-repo-bare ()
+  (with-sandbox
+   (git-init git-sandbox-path :bare)
+   (should (git-repo? git-sandbox-path))))
+
+(ert-deftest git-repo?-test/is-not-repo ()
+  (with-sandbox
+   (should-not (git-repo? git-sandbox-path))))
+
 
 ;;;; git-branch?
 
