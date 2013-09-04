@@ -372,4 +372,19 @@
 ;;;; git-status
 
 
-;;;; git-tag
+;;;; git-tag/git-tags
+
+(ert-deftest git-tag-test/no-tags ()
+  (with-initialized-git-repo
+   (should-not (git-tags))))
+
+(ert-deftest git-tag-test/single-tag ()
+  (with-initialized-git-repo
+   (git-tag "foo")
+   (should (equal (git-tags) '("foo")))))
+
+(ert-deftest git-tag-test/single-tag ()
+  (with-initialized-git-repo
+   (git-tag "foo")
+   (git-tag "bar")
+   (should (equal (git-tags) '("bar" "foo")))))

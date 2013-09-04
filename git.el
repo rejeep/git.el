@@ -86,7 +86,7 @@ option, use the `option' directive."
 
 (defun git-tag? (tag)
   "Return true if there's a tag called TAG."
-  (-contains? (git-tag) tag))
+  (-contains? (git-tags) tag))
 
 (defun git-on-branch ()
   "Return currently active branch."
@@ -218,13 +218,15 @@ If BARE is true, create a bare repo."
   "Show status information."
   (git-run "status"))
 
-(defun git-tag (&optional tag)
-  "Create TAG or list all available tags."
-  (if tag
-      (if (git-tag? tag)
-          (error "Tag already exists %s" tag)
-        (git-run "tag" tag))
-    (git--lines (git-run "tag"))))
+(defun git-tag (tag)
+  "Create TAG."
+  (if (git-tag? tag)
+      (error "Tag already exists %s" tag)
+    (git-run "tag" tag)))
+
+(defun git-tags ()
+  "Return list of all tags."
+  (git--lines (git-run "tag")))
 
 (defun git-untracked-files ()
   "Return list of untracked files."
