@@ -137,9 +137,6 @@
 ;;;; git-fetch
 
 
-;;;; git-init
-
-
 ;;;; git-log
 
 
