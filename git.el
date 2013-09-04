@@ -197,7 +197,18 @@ If BARE is true, create a bare repo."
       (if (git-tag? tag)
           (error "Tag already exists %s" tag)
         (git-run "tag" tag))
-    (-reject 's-blank? (-map 's-trim (s-lines (git-run "tag"))))))
+    (git--lines (git-run "tag"))))
+
+(defun git-untracked-files ()
+  "Return list of untracked files."
+  (git--lines
+   (git-run "ls-files" "--other" "--exclude-standard")))
+
+
+;;;; Helpers
+
+(defun git--lines (string)
+  (-reject 's-blank? (-map 's-trim (s-lines string))))
 
 (provide 'git)
 

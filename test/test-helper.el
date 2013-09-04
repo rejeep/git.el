@@ -7,7 +7,8 @@
   (f-expand "git.el" (f-dirname (make-temp-file "git"))))
 
 (defmacro with-sandbox (&rest body)
-  `(let ((default-directory git-sandbox-path))
+  `(let ((default-directory git-sandbox-path)
+         (git-repo git-sandbox-path))
      (when (f-dir? git-sandbox-path)
        (f-delete git-sandbox-path :force))
      (f-mkdir git-sandbox-path)
