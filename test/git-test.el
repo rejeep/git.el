@@ -1,3 +1,5 @@
+;;;; git-init-test
+
 (ert-deftest git-init-test/with-dir ()
   (with-sandbox
    (git-init git-sandbox-path)
