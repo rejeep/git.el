@@ -394,3 +394,15 @@
    (git-tag "foo")
    (git-tag "bar")
    (should (equal (git-tags) '("bar" "foo")))))
+
+
+;;;; git-config
+
+(ert-deftest git-config-test/does-not-exist ()
+  (with-initialized-git-repo
+   (should-not (git-config "user.foo"))))
+
+(ert-deftest git-config-test/exists ()
+  (with-initialized-git-repo
+   (git-config "user.foo" "bar")
+   (should (equal (git-config "user.foo") "bar"))))

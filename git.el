@@ -152,6 +152,10 @@ If BARE is true, create a bare repo."
   "Log history on BRANCH."
   (git-run "log" branch))
 
+(defun git-config (option &optional value)
+  "Set or get config OPTION. Set to VALUE if present."
+  (s-presence (s-trim (git-run "config" option value))))
+
 (defun git-pull (&optional repo ref)
   "..."
   )
