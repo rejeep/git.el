@@ -127,11 +127,18 @@
 
 ;;;; git-add
 
-(ert-deftest git-add-test/file ()
+(ert-deftest git-add-test/single-file ()
   (with-git-repo
    (f-touch "foo")
    (git-add "foo")
    (should (equal (git-staged-files) '("foo")))))
+
+(ert-deftest git-add-test/multiple-file ()
+  (with-git-repo
+   (f-touch "foo")
+   (f-touch "bar")
+   (git-add "foo" "bar")
+   (should (equal (git-staged-files) '("bar" "foo")))))
 
 (ert-deftest git-add-test/directory ()
   (with-git-repo

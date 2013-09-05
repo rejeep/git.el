@@ -86,10 +86,9 @@ option, use the `option' directive."
   "Return true if BRANCH is currently active."
   (equal branch (git-on-branch)))
 
-;; Todo: Multiple paths
-(defun git-add (&optional path)
+(defun git-add (&rest files)
   "Add PATH or everything."
-  (git-run "add" (or path ".")))
+  (git-run "add" (or files ".")))
 
 (defun git-branch (branch)
   "Create BRANCH."
