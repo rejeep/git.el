@@ -46,28 +46,18 @@
 (defconst git-stash-re "^\\(.+?\\): \\(?:WIP on\\|On\\) \\(.+\\): \\(.+\\)$"
   "Regular expression matching a stash.")
 
-(defmacro git-run (&rest args)
+(defun git-run (&rest args)
   "Run git command.
 
 ARGS are passed as argument to the `git-executable'. To enable an
 option, use the `option' directive."
-  `(let ((default-directory (f-full git-repo)))
+  (let ((default-directory (f-full git-repo)))
      (with-temp-buffer
        (apply
         'call-process
         (append
          (list git-executable nil (current-buffer) nil)
-         (-flatten
-          (-reject
-           'null
-           (-map
-            (lambda (arg)
-              (pcase arg
-                (`(option ,name)
-                 (when (and (boundp name) (eval name))
-                   (concat "--" (symbol-name name))))
-                (_ (eval arg))))
-            ',args)))))
+         (-flatten (-reject 'null args))))
        (buffer-string))))
 
 (defun git-repo? (directory)
@@ -90,7 +80,7 @@ option, use the `option' directive."
 
 (defun git-on-branch ()
   "Return currently active branch."
-  (git-run "rev-parse" (option abbrev-ref) "HEAD"))
+  (git-run "rev-parse" "--abbrev-ref" "HEAD"))
 
 (defun git-on-branch? (branch)
   "Return true if BRANCH is currently active."
@@ -145,8 +135,7 @@ option, use the `option' directive."
   "Create new Git repo at DIR (or `git-repo').
 
 If BARE is true, create a bare repo."
-  (let ((git-repo (or git-repo dir)))
-    (git-run "init" (option bare))))
+  (git-run "init" (and bare "--bare")))
 
 ;; Todo: The solution used here is not bulletproof. For example if the
 ;; message contains a pipe, the :message will only include everything
