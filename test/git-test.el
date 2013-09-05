@@ -179,6 +179,50 @@
 
 ;;;; git-commit
 
+(ert-deftest git-commit-test/single-file ()
+  (with-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (should (equal (plist-get (car (git-log)) :message) "add foo"))))
+
+(ert-deftest git-commit-test/multiple-files ()
+  (with-git-repo
+   (f-touch "foo")
+   (f-touch "bar")
+   (git-add "foo")
+   (git-add "bar")
+   (git-commit "add foo and bar" "foo" "bar")
+   (should (equal (plist-get (car (git-log)) :message) "add foo and bar"))))
+
+(ert-deftest git-commit-test/directory ()
+  (with-git-repo
+   (f-mkdir "foo")
+   (f-touch (f-join "foo" "bar"))
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (should (equal (plist-get (car (git-log)) :message) "add foo"))))
+
+(ert-deftest git-commit-test/all ()
+  (with-git-repo
+   (f-mkdir "foo")
+   (f-touch (f-join "foo" "bar"))
+   (git-add "foo")
+   (f-touch "baz")
+   (git-commit "add foo and baz")
+   (git-add "baz")
+   (should (equal (plist-get (car (git-log)) :message) "add foo and baz"))))
+
+(ert-deftest git-commit-test/no-add ()
+  (with-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (f-write-text "FOO" 'utf-8 "foo")
+   (git-commit "change foo")
+   (should (equal (plist-get (-first-item (git-log)) :message) "change foo"))
+   (should (equal (plist-get (-last-item (git-log)) :message) "add foo"))))
+
 
 ;;;; git-diff
 

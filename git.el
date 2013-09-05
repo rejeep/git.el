@@ -117,11 +117,9 @@ option, use the `option' directive."
   "Clone URL to DIR (if present)."
   (git-run "clone" url dir))
 
-;; Todo: if expression contains option, must recurse down...
 (defun git-commit (message &rest files)
   "Commit FILES (or added files) with MESSAGE."
-  (let ((all (not files)))
-    (git-run "commit" (option message) message (or files (option all)))))
+  (git-run "commit" (or files "-a") "--message" message files))
 
 ;; Todo: not working
 (defun git-diff (&optional blob-a blob-b path)
