@@ -19,6 +19,8 @@
 (defmacro with-git-repo (&rest body)
   `(with-sandbox
     (git-init ,git-sandbox-path)
+    (git-config "user.name" "Joe")
+    (git-config "user.email" "joe@doe.com")
     ,@body))
 
 (defmacro with-initialized-git-repo (&rest body)

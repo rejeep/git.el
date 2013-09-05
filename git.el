@@ -148,9 +148,24 @@ If BARE is true, create a bare repo."
   (let ((git-repo (or git-repo dir)))
     (git-run "init" (option bare))))
 
+;; Todo: The solution used here is not bulletproof. For example if the
+;; message contains a pipe, the :message will only include everything
+;; before that pipe. Figure out a good solution for this.
 (defun git-log (&optional branch)
   "Log history on BRANCH."
-  (git-run "log" branch))
+  (let ((logs (git--lines (git-run "log" "--format=%h|%an|%ae|%cn|%ce|%ad|%s"))))
+    (-map
+     (lambda (log)
+       (let ((data (s-split "|" log)))
+         (list
+          :commit (nth 0 data)
+          :author-name (nth 1 data)
+          :author-email (nth 2 data)
+          :comitter-name (nth 3 data)
+          :comitter-email (nth 4 data)
+          :date (nth 5 data)
+          :message (nth 6 data))))
+     logs)))
 
 (defun git-config (option &optional value)
   "Set or get config OPTION. Set to VALUE if present."

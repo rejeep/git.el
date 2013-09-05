@@ -188,6 +188,58 @@
 
 ;;;; git-log
 
+(ert-deftest git-log-test/single-commit ()
+  (with-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (let ((log (-first-item (git-log))))
+     (should (plist-get log :commit))
+     (should (equal (plist-get log :author-name) "Joe"))
+     (should (equal (plist-get log :author-email) "joe@doe.com"))
+     (should (equal (plist-get log :comitter-name) "Joe"))
+     (should (plist-get log :date))
+     (should (equal (plist-get log :message) "add foo")))))
+
+(ert-deftest git-log-test/multiple-commits ()
+  (with-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (f-touch "bar")
+   (git-add "bar")
+   (git-commit "add bar" "bar")
+   (let ((log (-first-item (git-log))))
+     (should (plist-get log :commit))
+     (should (equal (plist-get log :author-name) "Joe"))
+     (should (equal (plist-get log :author-email) "joe@doe.com"))
+     (should (equal (plist-get log :comitter-name) "Joe"))
+     (should (plist-get log :date))
+     (should (equal (plist-get log :message) "add foo")))))
+
+(ert-deftest git-log-test/multiple-commits ()
+  (with-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (f-touch "bar")
+   (git-add "bar")
+   (git-commit "add bar" "bar")
+   (let ((log (-first-item (git-log))))
+     (should (plist-get log :commit))
+     (should (equal (plist-get log :author-name) "Joe"))
+     (should (equal (plist-get log :author-email) "joe@doe.com"))
+     (should (equal (plist-get log :comitter-name) "Joe"))
+     (should (plist-get log :date))
+     (should (equal (plist-get log :message) "add bar")))
+   (let ((log (-last-item (git-log))))
+     (should (plist-get log :commit))
+     (should (equal (plist-get log :author-name) "Joe"))
+     (should (equal (plist-get log :author-email) "joe@doe.com"))
+     (should (equal (plist-get log :comitter-name) "Joe"))
+     (should (plist-get log :date))
+     (should (equal (plist-get log :message) "add foo")))))
+
 
 ;;;; git-pull
 
