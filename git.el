@@ -66,10 +66,13 @@ STRING is a `format' string, and ARGS are the formatted objects."
               'call-process
               (append
                (list git-executable nil (current-buffer) nil)
-               (-flatten (-reject 'null (cons command args)))))))
+               (git--args command args)))))
         (if (zerop exit-code)
             (buffer-string)
-          (git-error "unknown error"))))))
+          (git-error
+           "unknown error running command: %s %s"
+           git-executable
+           (s-join " " (git--args command args))))))))
 
 (defun git-repo? (directory)
   "Return true if there is a git repo in DIRECTORY, false otherwise."
@@ -273,6 +276,10 @@ If BARE is true, create a bare repo."
       (equal (plist-get stash :message) message))
     (git-stashes))
    :name))
+
+(defun git--args (command &rest args)
+  (-flatten (-reject 'null (append (list "--no-pager" command) args git-args))))
+
 
 (provide 'git)
 
