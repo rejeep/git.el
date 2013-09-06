@@ -121,8 +121,34 @@
 
 ;;;; git-on-branch
 
+(ert-deftest git-on-branch/no-branch ()
+  (with-git-repo
+   (with-mock
+    (mock (signal 'git-error "Repository not initialized"))
+    (git-on-branch))))
+
+(ert-deftest git-on-branch/master ()
+  (with-initialized-git-repo
+   (should (equal (git-on-branch) "master"))))
+
+(ert-deftest git-on-branch/other ()
+  (with-initialized-git-repo
+   (git-branch "foo")
+   (git-checkout "foo")
+   (should (equal (git-on-branch) "foo"))))
+
 
 ;;;; git-on-branch?
+
+(ert-deftest git-on-branch?/on-that-branch ()
+  (with-initialized-git-repo
+   (should (git-on-branch? "master"))))
+
+(ert-deftest git-on-branch?/on-other-branch ()
+  (with-initialized-git-repo
+   (git-branch "foo")
+   (git-checkout "foo")
+   (should-not (git-on-branch? "master"))))
 
 
 ;;;; git-add

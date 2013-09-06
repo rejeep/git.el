@@ -83,7 +83,10 @@
 
 (defun git-on-branch ()
   "Return currently active branch."
-  (git-run "rev-parse" "--abbrev-ref" "HEAD"))
+  (condition-case err
+      (git--clean (git-run "rev-parse" "--abbrev-ref" "HEAD"))
+    (git-error
+     (signal 'git-error "Repository not initialized"))))
 
 (defun git-on-branch? (branch)
   "Return true if BRANCH is currently active."
@@ -249,6 +252,9 @@ If BARE is true, create a bare repo."
 
 (defun git--lines (string)
   (-reject 's-blank? (-map 's-trim (s-lines string))))
+
+(defun git--clean (string)
+  (s-trim string))
 
 (defun git--stash-find (message)
   (plist-get
