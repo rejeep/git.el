@@ -527,6 +527,13 @@
    (git-tag "bar")
    (should (equal (git-tags) '("bar" "foo")))))
 
+(ert-deftest git-tag-test/already-existing ()
+  (with-initialized-git-repo
+   (git-tag "foo")
+   (should-error
+    (git-tag "foo"))
+   (should (equal (git-tags) '("foo")))))
+
 
 ;;;; git-config
 
