@@ -107,7 +107,7 @@ STRING is a `format' string, and ARGS are the formatted objects."
 (defun git-branch (branch)
   "Create BRANCH."
   (if (git-branch? branch)
-      (error "Branch already exists %s" branch)
+      (git-error "Branch already exists %s" branch)
     (git-run "branch" branch)))
 
 (defun git-branches ()
@@ -125,7 +125,7 @@ STRING is a `format' string, and ARGS are the formatted objects."
   (if (git-branch? branch)
       (unless (git-on-branch? branch)
         (git-run "checkout" branch))
-    (error "No such branch %s" branch)))
+    (git-error "No such branch %s" branch)))
 
 (defun git-clone (url &optional dir)
   "Clone URL to DIR (if present)."
@@ -197,7 +197,7 @@ If BARE is true, create a bare repo."
   "Remove remote with NAME."
   (if (git-remote? name)
       (git-run "remote" "remove" name)
-    (error "No such remote %s" name)))
+    (git-error "No such remote %s" name)))
 
 ;; Todo: What about soft and hard?
 (defun git-reset ()
@@ -238,7 +238,7 @@ If BARE is true, create a bare repo."
 (defun git-tag (tag)
   "Create TAG."
   (if (git-tag? tag)
-      (error "Tag already exists %s" tag)
+      (git-error "Tag already exists %s" tag)
     (git-run "tag" tag)))
 
 (defun git-tags ()
