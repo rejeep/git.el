@@ -49,6 +49,14 @@
 (put 'git-error 'error-conditions '(error git-error))
 (put 'git-error 'error-message "GIT Error")
 
+(defun git-error (string &rest args)
+  "Signal a GIT error.
+
+Signal an error with `git-error' type.
+
+STRING is a `format' string, and ARGS are the formatted objects."
+  (signal 'git-error (list (apply #'format string args))))
+
 (defun git-run (command &rest args)
   "Run git COMMAND with ARGS."
   (let ((default-directory (f-full git-repo)))
@@ -61,7 +69,7 @@
                (-flatten (-reject 'null (cons command args)))))))
         (if (zerop exit-code)
             (buffer-string)
-          (signal 'git-error "unknown error"))))))
+          (git-error "unknown error"))))))
 
 (defun git-repo? (directory)
   "Return true if there is a git repo in DIRECTORY, false otherwise."
@@ -86,7 +94,7 @@
   (condition-case err
       (git--clean (git-run "rev-parse" "--abbrev-ref" "HEAD"))
     (git-error
-     (signal 'git-error "Repository not initialized"))))
+     (git-error "Repository not initialized"))))
 
 (defun git-on-branch? (branch)
   "Return true if BRANCH is currently active."
