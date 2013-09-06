@@ -46,18 +46,15 @@
 (defconst git-stash-re "^\\(.+?\\): \\(?:WIP on\\|On\\) \\(.+\\): \\(.+\\)$"
   "Regular expression matching a stash.")
 
-(defun git-run (&rest args)
-  "Run git command.
-
-ARGS are passed as argument to the `git-executable'. To enable an
-option, use the `option' directive."
+(defun git-run (command &rest args)
+  "Run git COMMAND with ARGS."
   (let ((default-directory (f-full git-repo)))
      (with-temp-buffer
        (apply
         'call-process
         (append
          (list git-executable nil (current-buffer) nil)
-         (-flatten (-reject 'null args))))
+         (-flatten (-reject 'null (cons command args)))))
        (buffer-string))))
 
 (defun git-repo? (directory)
