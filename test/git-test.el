@@ -350,10 +350,8 @@
 ;;;; git-remote-remove
 
 (ert-deftest git-remote-remove-test/does-not-exist ()
-  (with-mock
-   (mock (error "No such remote %s" "foo"))
-   (with-git-repo
-    (git-remote-remove "foo"))))
+  (with-git-repo
+   (should-error (git-remote-remove "foo"))))
 
 (ert-deftest git-remote-remove-test/exists ()
   (with-git-repo
