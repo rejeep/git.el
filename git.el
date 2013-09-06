@@ -262,7 +262,7 @@ If BARE is true, create a bare repo."
   (-reject 's-blank? (-map 's-trim (s-lines string))))
 
 (defun git--clean (string)
-  (s-trim string))
+  (s-presence (s-trim string)))
 
 (defun git--stash-find (message)
   (plist-get
