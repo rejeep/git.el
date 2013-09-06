@@ -102,6 +102,7 @@
        line))
    (git--lines (git-run "branch"))))
 
+;; Todo: Can checkout other things than branches
 (defun git-checkout (branch)
   "Checkout BRANCH."
   (if (git-branch? branch)
@@ -181,8 +182,8 @@ If BARE is true, create a bare repo."
       (git-run "remote" "remove" name)
     (error "No such remote %s" name)))
 
-;; Todo: What about soft?
-(defun git-reset (commit &optional hard)
+;; Todo: What about soft and hard?
+(defun git-reset ()
   "..."
   )
 
