@@ -64,7 +64,7 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 
 ### git-repo? `(directory)`
 
-Return true if there is a git repo in DIRECTORY, false otherwise.
+{{git-repo?}}
 
 ```lisp
 (git-repo? "/path/to/git/repo") ;; => t
@@ -73,7 +73,7 @@ Return true if there is a git repo in DIRECTORY, false otherwise.
 
 ### git-branch? `(branch)`
 
-Return true if there's a branch called BRANCH.
+{{git-branch?}}
 
 ```lisp
 (git-branch? "existing") ;; => t
@@ -82,7 +82,7 @@ Return true if there's a branch called BRANCH.
 
 ### git-tag? `(tag)`
 
-Return true if there's a tag called TAG.
+{{git-tag?}}
 
 ```lisp
 (git-tag? "existing") ;; => t
@@ -91,7 +91,7 @@ Return true if there's a tag called TAG.
 
 ### git-on-branch? `(branch)`
 
-Return true if BRANCH is currently active.
+{{git-on-branch?}}
 
 ```lisp
 (git-on-branch? "current") ;; => t
@@ -100,7 +100,7 @@ Return true if BRANCH is currently active.
 
 ### git-remote? `(name)`
 
-Return true if remote with NAME exists, false otherwise.
+{{git-remote?}}
 
 ```lisp
 (git-remote? "existing") ;; => t
@@ -109,7 +109,7 @@ Return true if remote with NAME exists, false otherwise.
 
 ### git-on-branch `()`
 
-Return currently active branch.
+{{git-on-branch}}
 
 ```lisp
 (git-on-branch) ;; => "current-branch"
@@ -117,7 +117,7 @@ Return currently active branch.
 
 ### git-branches `()`
 
-List all available branches.
+{{git-branches}}
 
 ```lisp
 (git-branches) ;; => '("master" "foo" "bar")
@@ -125,7 +125,7 @@ List all available branches.
 
 ### git-diff `(&optional blob-a blob-b path)`
 
-Diff PATH between BLOB-A and BLOB-B.
+{{git-diff}}
 
 ```lisp
 (git-diff)
@@ -134,7 +134,7 @@ Diff PATH between BLOB-A and BLOB-B.
 
 ### git-log `(&optional branch)`
 
-Log history on BRANCH.
+{{git-log}}
 
 ```lisp
 (git-log)
@@ -143,7 +143,7 @@ Log history on BRANCH.
 
 ### git-remotes `()`
 
-Return list of all remotes.
+{{git-remotes}}
 
 ```lisp
 (git-remotes) ;; => '("remote-1" "remote-2")
@@ -151,7 +151,7 @@ Return list of all remotes.
 
 ### git-show `(&optional commit)`
 
-Show COMMIT.
+{{git-show}}
 
 ```lisp
 (git-show)
@@ -160,7 +160,7 @@ Show COMMIT.
 
 ### git-stashes `()`
 
-Return list of stashes.
+{{git-stashes}}
 
 ```lisp
 (git-stashes) ;; => (:name "..." :branch "..." :message "...")
@@ -168,7 +168,7 @@ Return list of stashes.
 
 ### git-tags `()`
 
-Return list of all tags.
+{{git-tags}}
 
 ```lisp
 (git-tags) ;; => '("tag-1" "tag-2")
@@ -176,7 +176,7 @@ Return list of all tags.
 
 ### git-untracked-files `()`
 
-Return list of untracked files.
+{{git-untracked-files}}
 
 ```lisp
 (git-untracked-files) ;; => '("file-1" "file-2")
@@ -184,7 +184,7 @@ Return list of untracked files.
 
 ### git-staged-files `()`
 
-Return list of staged files.
+{{git-staged-files}}
 
 ```lisp
 (git-staged-files) ;; => '("file-1" "file-2")
@@ -192,7 +192,7 @@ Return list of staged files.
 
 ### git-add `(&rest files)`
 
-Add PATH or everything.
+{{git-add}}
 
 ```lisp
 (git-add)
@@ -202,7 +202,7 @@ Add PATH or everything.
 
 ### git-branch `(branch)`
 
-Create BRANCH.
+{{git-branch}}
 
 ```lisp
 (git-branch "branch")
@@ -210,7 +210,7 @@ Create BRANCH.
 
 ### git-checkout `(branch)`
 
-Checkout BRANCH.
+{{git-checkout}}
 
 ```lisp
 (git-checkout "branch")
@@ -218,7 +218,7 @@ Checkout BRANCH.
 
 ### git-commit `(message &rest files)`
 
-Commit FILES (or added files) with MESSAGE.
+{{git-commit}}
 
 ```lisp
 (git-commit "add foo" "foo")
@@ -228,9 +228,7 @@ Commit FILES (or added files) with MESSAGE.
 
 ### git-init `(&optional dir bare)`
 
-Create new Git repo at DIR (or `git-repo').
-
-If BARE is true, create a bare repo.
+{{git-init}}
 
 ```lisp
 (git-init)
@@ -240,7 +238,7 @@ If BARE is true, create a bare repo.
 
 ### git-remote-add `(name url)`
 
-Add remote with NAME and URL.
+{{git-remote-add}}
 
 ```lisp
 (git-remote-add "foo" "foo@git.com")
@@ -248,7 +246,7 @@ Add remote with NAME and URL.
 
 ### git-remote-remove `(name)`
 
-Remove remote with NAME.
+{{git-remote-remove}}
 
 ```lisp
 (git-remote-remove "foo")
@@ -256,7 +254,7 @@ Remove remote with NAME.
 
 ### git-reset `()`
 
-...
+{{git-reset}}
 
 ```lisp
 
@@ -264,7 +262,7 @@ Remove remote with NAME.
 
 ### git-rm `(path)`
 
-...
+{{git-rm}}
 
 ```lisp
 
@@ -272,7 +270,7 @@ Remove remote with NAME.
 
 ### git-stash `(&optional name)`
 
-Stash!
+{{git-stash}}
 
 ```lisp
 (git-stash)
@@ -281,7 +279,7 @@ Stash!
 
 ### git-stash-pop `(&optional message)`
 
-Apply and remove stash with MESSAGE (or first stash).
+{{git-stash-pop}}
 
 ```lisp
 (git-stash-pop)
@@ -290,7 +288,7 @@ Apply and remove stash with MESSAGE (or first stash).
 
 ### git-stash-apply `(&optional message)`
 
-Apply and keep stash with MESSAGE (or first stash).
+{{git-stash-apply}}
 
 ```lisp
 (git-stash-apply)
@@ -299,7 +297,7 @@ Apply and keep stash with MESSAGE (or first stash).
 
 ### git-tag `(tag)`
 
-Create TAG.
+{{git-tag}}
 
 ```lisp
 (git-tag "tag")
@@ -307,7 +305,7 @@ Create TAG.
 
 ### git-clone `(url &optional dir)`
 
-Clone URL to DIR (if present).
+{{git-clone}}
 
 ```lisp
 (git-clone "foo@git.com")
@@ -316,7 +314,7 @@ Clone URL to DIR (if present).
 
 ### git-fetch `(&optional repo ref)`
 
-...
+{{git-fetch}}
 
 ```lisp
 
@@ -324,7 +322,7 @@ Clone URL to DIR (if present).
 
 ### git-pull `(&optional repo ref)`
 
-...
+{{git-pull}}
 
 ```lisp
 
@@ -332,7 +330,7 @@ Clone URL to DIR (if present).
 
 ### git-push `(&optional repo ref)`
 
-...
+{{git-push}}
 
 ```lisp
 
@@ -340,7 +338,7 @@ Clone URL to DIR (if present).
 
 ### git-run `(command &rest args)`
 
-Run git COMMAND with ARGS.
+{{git-run}}
 
 ```lisp
 (git-run "log")

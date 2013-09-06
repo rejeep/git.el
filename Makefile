@@ -3,6 +3,9 @@ CASK ?= cask
 
 all: test
 
+docs:
+	${CASK} exec ${EMACS} -Q --script bin/docs.el
+
 test: clean-elc
 	${MAKE} unit
 	${MAKE} compile
