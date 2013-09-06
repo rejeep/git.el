@@ -137,10 +137,10 @@ STRING is a `format' string, and ARGS are the formatted objects."
   "Commit FILES (or added files) with MESSAGE."
   (git-run "commit" (or files "-a") "--message" message files))
 
-;; Todo: not working
-(defun git-diff (&optional blob-a blob-b path)
-  "Diff PATH between BLOB-A and BLOB-B."
-  (git-run "diff" (or blob-a (git-on-branch)) (or blob-b "master") path))
+;; Todo
+(defun git-diff ()
+  "..."
+  )
 
 (defun git-fetch (&optional repo ref)
   "..."

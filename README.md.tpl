@@ -24,7 +24,7 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 
 * [git-on-branch](#git-on-branch-) `()`
 * [git-branches](#git-branches-) `()`
-* [git-diff](#git-diff-optional-blob-a-blob-b-path) `(&optional blob-a blob-b path)`
+* [git-diff](#git-diff-) `()`
 * [git-log](#git-log-optional-branch) `(&optional branch)`
 * [git-remotes](#git-remotes-) `()`
 * [git-show](#git-show-optional-commit) `(&optional commit)`
@@ -123,13 +123,12 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 (git-branches) ;; => '("master" "foo" "bar")
 ```
 
-### git-diff `(&optional blob-a blob-b path)`
+### git-diff `()`
 
 {{git-diff}}
 
 ```lisp
-(git-diff)
-(git-diff "branch-a" "branch-b" "file")
+
 ```
 
 ### git-log `(&optional branch)`
