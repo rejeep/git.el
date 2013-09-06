@@ -121,15 +121,15 @@
 
 ;;;; git-on-branch
 
-(ert-deftest git-on-branch/no-branch ()
+(ert-deftest git-on-branch-test/no-branch ()
   (with-git-repo
    (should-error (git-on-branch))))
 
-(ert-deftest git-on-branch/master ()
+(ert-deftest git-on-branch-test/master ()
   (with-initialized-git-repo
    (should (equal (git-on-branch) "master"))))
 
-(ert-deftest git-on-branch/other ()
+(ert-deftest git-on-branch-test/other ()
   (with-initialized-git-repo
    (git-branch "foo")
    (git-checkout "foo")
@@ -138,11 +138,11 @@
 
 ;;;; git-on-branch?
 
-(ert-deftest git-on-branch?/on-that-branch ()
+(ert-deftest git-on-branch?-test/on-that-branch ()
   (with-initialized-git-repo
    (should (git-on-branch? "master"))))
 
-(ert-deftest git-on-branch?/on-other-branch ()
+(ert-deftest git-on-branch?-test/on-other-branch ()
   (with-initialized-git-repo
    (git-branch "foo")
    (git-checkout "foo")
