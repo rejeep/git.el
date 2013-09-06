@@ -73,7 +73,7 @@ STRING is a `format' string, and ARGS are the formatted objects."
         (if (zerop exit-code)
             (buffer-string)
           (git-error
-           "unknown error running command: %s %s"
+           "Unknown error running command: %s %s"
            git-executable
            (s-join " " (git--args command args))))))))
 
