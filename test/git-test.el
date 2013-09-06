@@ -201,6 +201,13 @@
    (git-branch "bar")
    (should (equal (git-branches) '("bar" "foo" "master")))))
 
+(ert-deftest git-branch-test/already-exists ()
+  (with-initialized-git-repo
+   (git-branch "foo")
+   (should-error
+    (git-branch "foo"))
+   (should (equal (git-branches) '("foo" "master")))))
+
 
 ;;;; git-checkout
 
