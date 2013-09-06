@@ -46,16 +46,22 @@
 (defconst git-stash-re "^\\(.+?\\): \\(?:WIP on\\|On\\) \\(.+\\): \\(.+\\)$"
   "Regular expression matching a stash.")
 
+(put 'git-error 'error-conditions '(error git-error))
+(put 'git-error 'error-message "GIT Error")
+
 (defun git-run (command &rest args)
   "Run git COMMAND with ARGS."
   (let ((default-directory (f-full git-repo)))
-     (with-temp-buffer
-       (apply
-        'call-process
-        (append
-         (list git-executable nil (current-buffer) nil)
-         (-flatten (-reject 'null (cons command args)))))
-       (buffer-string))))
+    (with-temp-buffer
+      (let ((exit-code
+             (apply
+              'call-process
+              (append
+               (list git-executable nil (current-buffer) nil)
+               (-flatten (-reject 'null (cons command args)))))))
+        (if (zerop exit-code)
+            (buffer-string)
+          (signal 'git-error "unknown error"))))))
 
 (defun git-repo? (directory)
   "Return true if there is a git repo in DIRECTORY, false otherwise."
