@@ -125,13 +125,9 @@ STRING is a `format' string, and ARGS are the formatted objects."
        line))
    (git--lines (git-run "branch"))))
 
-;; Todo: Can checkout other things than branches
-(defun git-checkout (branch)
-  "Checkout BRANCH."
-  (if (git-branch? branch)
-      (unless (git-on-branch? branch)
-        (git-run "checkout" branch))
-    (git-error "No such branch %s" branch)))
+(defun git-checkout (ref)
+  "Checkout REF."
+  (git-run "checkout" ref))
 
 (defun git-clone (url &optional dir)
   "Clone URL to DIR (if present)."

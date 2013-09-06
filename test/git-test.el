@@ -234,6 +234,47 @@
 
 ;;;; git-checkout
 
+(ert-deftest git-checkout-test/does-not-exist ()
+  (with-initialized-git-repo
+   (should-error
+    (git-checkout "foo"))))
+
+(ert-deftest git-checkout-test/branch ()
+  (with-initialized-git-repo
+   (git-branch "foo")
+   (git-checkout "foo")
+   (should (equal (git-on-branch) "foo"))))
+
+(ert-deftest git-checkout-test/tag ()
+  (with-initialized-git-repo
+   (git-tag "bar")
+   (f-touch "foo")
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (git-checkout "bar")
+   (should-not (equal (plist-get (car (git-log)) :message) "add foo"))))
+
+(ert-deftest git-checkout-test/commit ()
+  (with-initialized-git-repo
+   (let ((commit (plist-get (car (git-log)) :commit)))
+     (f-touch "foo")
+     (git-add "foo")
+     (git-commit "add foo" "foo")
+     (git-checkout commit)
+     (should-not (equal (plist-get (car (git-log)) :message) "add foo")))))
+
+(ert-deftest git-checkout-test/commit ()
+  (with-initialized-git-repo
+   (let ((commit (plist-get (car (git-log)) :commit)))
+     (f-write-text "FOO" 'utf-8 "foo")
+     (git-add "foo")
+     (git-commit "add foo" "foo")
+     (should (equal (f-read-text "foo" 'utf-8) "FOO"))
+     (f-write-text "BAR" 'utf-8 "foo")
+     (should (equal (f-read-text "foo" 'utf-8) "BAR"))
+     (git-checkout "foo")
+     (should (equal (f-read-text "foo" 'utf-8) "FOO")))))
+
 
 ;;;; git-clone
 
