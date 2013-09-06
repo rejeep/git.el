@@ -112,6 +112,19 @@
 
 ;;;; git-branch?
 
+(ert-deftest git-branch?-test/not-initialized ()
+  (with-git-repo
+   (should-not (git-branch? "foo"))))
+
+(ert-deftest git-branch?-test/does-not-exist ()
+  (with-initialized-git-repo
+   (should-not (git-branch? "foo"))))
+
+(ert-deftest git-branch?-test/exists ()
+  (with-initialized-git-repo
+   (git-branch "foo")
+   (should (git-branch? "foo"))))
+
 
 ;;;; git-tag?
 
