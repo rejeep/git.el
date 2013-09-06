@@ -93,8 +93,7 @@ STRING is a `format' string, and ARGS are the formatted objects."
   "Return currently active branch."
   (condition-case err
       (git--clean (git-run "rev-parse" "--abbrev-ref" "HEAD"))
-    (git-error
-     (git-error "Repository not initialized"))))
+    (git-error "Repository not initialized")))
 
 (defun git-on-branch? (branch)
   "Return true if BRANCH is currently active."

@@ -123,9 +123,7 @@
 
 (ert-deftest git-on-branch/no-branch ()
   (with-git-repo
-   (with-mock
-    (mock (signal 'git-error "Repository not initialized"))
-    (git-on-branch))))
+   (should-error (git-on-branch))))
 
 (ert-deftest git-on-branch/master ()
   (with-initialized-git-repo
