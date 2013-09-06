@@ -115,6 +115,10 @@
 
 ;;;; git-tag?
 
+(ert-deftest git-tag?-test/not-initialized ()
+  (with-git-repo
+   (should-not (git-tag? "foo"))))
+
 (ert-deftest git-tag?-test/does-not-exist ()
   (with-initialized-git-repo
    (should-not (git-tag? "foo"))))
