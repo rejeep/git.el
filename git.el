@@ -171,7 +171,9 @@ If BARE is true, create a bare repo."
 
 (defun git-config (option &optional value)
   "Set or get config OPTION. Set to VALUE if present."
-  (s-presence (s-trim (git-run "config" option value))))
+  (condition-case err
+      (git--clean (git-run "config" option value))
+    (git-error)))
 
 (defun git-pull (&optional repo ref)
   "..."
