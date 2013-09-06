@@ -87,6 +87,12 @@
 
 ;;;; git-run
 
+(ert-deftest git-run-test/git-args ()
+  (with-initialized-git-repo
+   (let ((git-args '("-b" "foo")))
+     (git-run "checkout"))
+   (should (equal (git-on-branch) "foo"))))
+
 
 ;;;; git-repo?
 

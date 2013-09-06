@@ -43,6 +43,9 @@
 (defvar git-repo nil
   "Path to current working repo.")
 
+(defvar git-args nil
+  "List of args to include when running git command.")
+
 (defconst git-stash-re "^\\(.+?\\): \\(?:WIP on\\|On\\) \\(.+\\): \\(.+\\)$"
   "Regular expression matching a stash.")
 
