@@ -444,6 +444,24 @@
 
 ;;;; git-rm
 
+(ert-deftest git-rm-test/file ()
+  (with-initialized-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (git-rm "foo")
+   (should-not (f-file? "foo"))
+   (should (equal (git-staged-files) '("foo")))))
+
+(ert-deftest git-rm-test/dir ()
+  (with-initialized-git-repo
+   (f-mkdir "foo")
+   (f-touch (f-join "foo" "bar"))
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (git-rm "foo" :recursive)
+   (should (equal (git-staged-files) '("foo/bar")))))
+
 
 ;;;; git-show
 

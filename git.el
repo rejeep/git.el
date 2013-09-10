@@ -209,9 +209,11 @@ If BARE is true, create a bare repo."
   "..."
   )
 
-(defun git-rm (path)
-  "..."
-  )
+(defun git-rm (path &optional recursive)
+  "Remove PATH.
+
+To remove directory, use RECURSIVE argument."
+  (git-run "rm" path (and recursive "-r")))
 
 (defun git-show (&optional commit)
   "Show COMMIT."
