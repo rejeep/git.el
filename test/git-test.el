@@ -413,8 +413,14 @@
   (with-mock
    (mock (git-run "pull" "origin" "master"))
    (git-pull "origin" "master")))
+
 
 ;;;; git-push
+
+(ert-deftest git-push-test/ ()
+  (with-mock
+   (mock (git-run "push" "origin" "master"))
+   (git-push "origin" "master")))
 
 
 ;;;; git-remotes/git-remote-add

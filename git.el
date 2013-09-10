@@ -183,8 +183,8 @@ If BARE is true, create a bare repo."
   (git-run "pull" repo ref))
 
 (defun git-push (&optional repo ref)
-  "..."
-  )
+  "Push REF to REPO."
+  (git-run "push" repo ref))
 
 (defun git-remote? (name)
   "Return true if remote with NAME exists, false otherwise."
