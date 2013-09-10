@@ -204,10 +204,9 @@ If BARE is true, create a bare repo."
       (git-run "remote" "remove" name)
     (git-error "No such remote %s" name)))
 
-;; Todo: What about soft and hard?
-(defun git-reset ()
+(defun git-reset (&optional commit mode)
   "..."
-  )
+  (git-run "reset" (if mode (concat "--" (symbol-name mode))) commit))
 
 (defun git-rm (path &optional recursive)
   "Remove PATH.

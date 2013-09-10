@@ -469,6 +469,36 @@
 
 ;;;; git-reset
 
+(ert-deftest git-reset-test/default-mixed ()
+  (with-initialized-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (f-touch "bar")
+   (should (equal (git-staged-files) '("foo")))
+   (git-reset)
+   (should-not (git-staged-files))))
+
+(ert-deftest git-reset-test/soft ()
+  (with-initialized-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (git-commit "add foo" "foo")
+   (f-touch "bar")
+   (f-touch "baz")
+   (git-add "baz")
+   (should (equal (length (git-log)) 2))
+   (git-reset "HEAD~1" 'soft)
+   (should (equal (length (git-log)) 1))))
+
+(ert-deftest git-reset-test/hard ()
+  (with-initialized-git-repo
+   (f-touch "foo")
+   (git-add "foo")
+   (f-touch "bar")
+   (git-reset "HEAD" 'hard)
+   (should-not (f-file? "foo"))
+   (should (f-file? "bar"))))
+
 
 ;;;; git-rm
 
