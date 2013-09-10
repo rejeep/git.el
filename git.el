@@ -143,9 +143,9 @@ STRING is a `format' string, and ARGS are the formatted objects."
   "..."
   )
 
-(defun git-fetch (&optional repo ref)
-  "..."
-  )
+(defun git-fetch (&optional repo)
+  "Fetch REPO."
+  (git-run "fetch" repo))
 
 (defun git-init (&optional dir bare)
   "Create new Git repo at DIR (or `git-repo').

@@ -333,6 +333,18 @@
 
 ;;;; git-fetch
 
+(ert-deftest git-fetch-test/no-repo ()
+  "Hard to test..."
+  (with-mock
+   (mock (git-run "fetch"))
+   (git-fetch)))
+
+(ert-deftest git-fetch-test/with-repo ()
+  "Hard to test..."
+  (with-mock
+   (mock (git-run "fetch" "repo"))
+   (git-fetch "repo")))
+
 
 ;;;; git-log
 
