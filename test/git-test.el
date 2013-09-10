@@ -278,6 +278,12 @@
 
 ;;;; git-clone
 
+(ert-deftest git-clone-test/ ()
+  "Hard to test..."
+  (with-mock
+   (mock (git-run "clone" "url" "dir"))
+   (git-clone "url" "dir")))
+
 
 ;;;; git-commit
 
