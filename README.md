@@ -1,6 +1,6 @@
 # Git.el
 
-Git API library for Emacs
+An Elisp API for programmatically using Git.
 
 ## Installation
 

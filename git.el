@@ -1,4 +1,4 @@
-;;; git.el --- Git API
+;;; git.el --- An Elisp API for programmatically using Git
 
 ;; Copyright (C) 2013 Johan Andersson
 
