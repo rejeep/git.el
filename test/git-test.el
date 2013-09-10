@@ -491,9 +491,6 @@
    (should (equal (git-staged-files) '("foo/bar")))))
 
 
-;;;; git-show
-
-
 ;;;; git-stash/git-stashes
 
 (ert-deftest git-stash-test/no-stashes ()

@@ -215,10 +215,6 @@ If BARE is true, create a bare repo."
 To remove directory, use RECURSIVE argument."
   (git-run "rm" path (and recursive "-r")))
 
-(defun git-show (&optional commit)
-  "Show COMMIT."
-  (git-run "show" commit))
-
 (defun git-stash (&optional name)
   "Stash!"
   (git-run "stash" "save" "--" name))
