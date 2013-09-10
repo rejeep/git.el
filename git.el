@@ -73,9 +73,10 @@ STRING is a `format' string, and ARGS are the formatted objects."
         (if (zerop exit-code)
             (buffer-string)
           (git-error
-           "Unknown error running command: %s %s"
+           "Error running command: %s %s\n%s"
            git-executable
-           (s-join " " (git--args command args))))))))
+           (s-join " " (git--args command args))
+           (buffer-string)))))))
 
 (defun git-repo? (directory)
   "Return true if there is a git repo in DIRECTORY, false otherwise."
