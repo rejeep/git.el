@@ -138,11 +138,6 @@ STRING is a `format' string, and ARGS are the formatted objects."
   "Commit FILES (or added files) with MESSAGE."
   (git-run "commit" (or files "-a") "--message" message files))
 
-;; Todo
-(defun git-diff ()
-  "..."
-  )
-
 (defun git-fetch (&optional repo)
   "Fetch REPO."
   (git-run "fetch" repo))
