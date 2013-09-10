@@ -179,8 +179,8 @@ If BARE is true, create a bare repo."
     (git-error)))
 
 (defun git-pull (&optional repo ref)
-  "..."
-  )
+  "Pull REF from REPO."
+  (git-run "pull" repo ref))
 
 (defun git-push (&optional repo ref)
   "..."

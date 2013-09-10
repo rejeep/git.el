@@ -409,6 +409,10 @@
 
 ;;;; git-pull
 
+(ert-deftest git-pull-test/ ()
+  (with-mock
+   (mock (git-run "pull" "origin" "master"))
+   (git-pull "origin" "master")))
 
 ;;;; git-push
 
