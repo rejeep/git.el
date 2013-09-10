@@ -331,6 +331,15 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 ;; ...
 ```
 
+## Notes
+
+For each command, you can add arguments using `git-args`.
+
+```lisp
+(let ((git-args "--hard"))
+  (git-fetch "HEAD"))
+```
+
 ## Contribution
 
 Be sure to!
