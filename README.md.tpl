@@ -24,10 +24,8 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 
 * [git-on-branch](#git-on-branch-) `()`
 * [git-branches](#git-branches-) `()`
-* [git-diff](#git-diff-) `()`
 * [git-log](#git-log-optional-branch) `(&optional branch)`
 * [git-remotes](#git-remotes-) `()`
-* [git-show](#git-show-optional-commit) `(&optional commit)`
 * [git-stashes](#git-stashes-) `()`
 * [git-tags](#git-tags-) `()`
 * [git-untracked-files](#git-untracked-files-) `()`
@@ -42,7 +40,7 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 * [git-init](#git-init-optional-dir-bare) `(&optional dir bare)`
 * [git-remote-add](#git-remote-add-name-url) `(name url)`
 * [git-remote-remove](#git-remote-remove-name) `(name)`
-* [git-reset](#git-reset-) `()`
+* [git-reset](#git-reset-optional-commit-mode) `(&optional commit mode)`
 * [git-rm](#git-rm-path) `(path)`
 * [git-stash](#git-stash-optional-name) `(&optional name)`
 * [git-stash-pop](#git-stash-pop-optional-message) `(&optional message)`
@@ -123,14 +121,6 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 (git-branches) ;; => '("master" "foo" "bar")
 ```
 
-### git-diff `()`
-
-{{git-diff}}
-
-```lisp
-
-```
-
 ### git-log `(&optional branch)`
 
 {{git-log}}
@@ -146,15 +136,6 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 
 ```lisp
 (git-remotes) ;; => '("remote-1" "remote-2")
-```
-
-### git-show `(&optional commit)`
-
-{{git-show}}
-
-```lisp
-(git-show)
-(git-show "xyz123")
 ```
 
 ### git-stashes `()`
@@ -256,7 +237,8 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 {{git-reset}}
 
 ```lisp
-
+(git-reset)
+(git-reset "HEAD~1" 'hard)
 ```
 
 ### git-rm `(path)`
@@ -264,7 +246,8 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 {{git-rm}}
 
 ```lisp
-
+(git-rm "foo")
+(git-rm "bar" :recursive)
 ```
 
 ### git-stash `(&optional name)`
@@ -316,7 +299,8 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 {{git-fetch}}
 
 ```lisp
-
+(git-fetch)
+(git-fetch "origin" "master")
 ```
 
 ### git-pull `(&optional repo ref)`
@@ -324,7 +308,8 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 {{git-pull}}
 
 ```lisp
-
+(git-pull)
+(git-pull "origin" "master")
 ```
 
 ### git-push `(&optional repo ref)`
@@ -332,7 +317,8 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 {{git-push}}
 
 ```lisp
-
+(git-push)
+(git-push "origin" "master")
 ```
 
 ### git-run `(command &rest args)`

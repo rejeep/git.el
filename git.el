@@ -205,7 +205,7 @@ If BARE is true, create a bare repo."
     (git-error "No such remote %s" name)))
 
 (defun git-reset (&optional commit mode)
-  "..."
+  "Reset to COMMIT with MODE."
   (git-run "reset" (if mode (concat "--" (symbol-name mode))) commit))
 
 (defun git-rm (path &optional recursive)

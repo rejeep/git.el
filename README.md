@@ -24,10 +24,8 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 
 * [git-on-branch](#git-on-branch-) `()`
 * [git-branches](#git-branches-) `()`
-* [git-diff](#git-diff-optional-blob-a-blob-b-path) `(&optional blob-a blob-b path)`
 * [git-log](#git-log-optional-branch) `(&optional branch)`
 * [git-remotes](#git-remotes-) `()`
-* [git-show](#git-show-optional-commit) `(&optional commit)`
 * [git-stashes](#git-stashes-) `()`
 * [git-tags](#git-tags-) `()`
 * [git-untracked-files](#git-untracked-files-) `()`
@@ -42,7 +40,7 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 * [git-init](#git-init-optional-dir-bare) `(&optional dir bare)`
 * [git-remote-add](#git-remote-add-name-url) `(name url)`
 * [git-remote-remove](#git-remote-remove-name) `(name)`
-* [git-reset](#git-reset-) `()`
+* [git-reset](#git-reset-optional-commit-mode) `(&optional commit mode)`
 * [git-rm](#git-rm-path) `(path)`
 * [git-stash](#git-stash-optional-name) `(&optional name)`
 * [git-stash-pop](#git-stash-pop-optional-message) `(&optional message)`
@@ -123,15 +121,6 @@ List all available branches.
 (git-branches) ;; => '("master" "foo" "bar")
 ```
 
-### git-diff `(&optional blob-a blob-b path)`
-
-Diff PATH between BLOB-A and BLOB-B.
-
-```lisp
-(git-diff)
-(git-diff "branch-a" "branch-b" "file")
-```
-
 ### git-log `(&optional branch)`
 
 Log history on BRANCH.
@@ -147,15 +136,6 @@ Return list of all remotes.
 
 ```lisp
 (git-remotes) ;; => '("remote-1" "remote-2")
-```
-
-### git-show `(&optional commit)`
-
-Show COMMIT.
-
-```lisp
-(git-show)
-(git-show "xyz123")
 ```
 
 ### git-stashes `()`
@@ -210,7 +190,7 @@ Create BRANCH.
 
 ### git-checkout `(branch)`
 
-Checkout BRANCH.
+Checkout REF.
 
 ```lisp
 (git-checkout "branch")
@@ -256,18 +236,22 @@ Remove remote with NAME.
 
 ### git-reset `()`
 
-...
+Reset to COMMIT with MODE.
 
 ```lisp
-
+(git-reset)
+(git-reset "HEAD~1" 'hard)
 ```
 
 ### git-rm `(path)`
 
-...
+Remove PATH.
+
+To remove directory, use RECURSIVE argument.
 
 ```lisp
-
+(git-rm "foo")
+(git-rm "bar" :recursive)
 ```
 
 ### git-stash `(&optional name)`
@@ -316,26 +300,29 @@ Clone URL to DIR (if present).
 
 ### git-fetch `(&optional repo ref)`
 
-...
+Fetch REPO.
 
 ```lisp
-
+(git-fetch)
+(git-fetch "origin" "master")
 ```
 
 ### git-pull `(&optional repo ref)`
 
-...
+Pull REF from REPO.
 
 ```lisp
-
+(git-pull)
+(git-pull "origin" "master")
 ```
 
 ### git-push `(&optional repo ref)`
 
-...
+Push REF to REPO.
 
 ```lisp
-
+(git-push)
+(git-push "origin" "master")
 ```
 
 ### git-run `(command &rest args)`
