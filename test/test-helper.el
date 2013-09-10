@@ -1,4 +1,3 @@
-(require 'ert)
 (require 'f)
 (require 'el-mock)
 (require 'cl)
@@ -7,6 +6,18 @@
 
 (defvar git-sandbox-path
   (f-expand "git.el" (f-dirname (make-temp-file "git"))))
+
+(defvar git-root-path
+  (f-parent (f-dirname (f-this-file))))
+
+(defvar git-test-path
+  (f-expand "test" git-root-path))
+
+(defvar git-vendor-path
+  (f-expand "vendor" git-test-path))
+
+(unless (require 'ert nil t)
+  (require 'ert (expand-file-name "ert" git-vendor-path)))
 
 (defmacro with-sandbox (&rest body)
   `(let ((default-directory git-sandbox-path)
