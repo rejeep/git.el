@@ -341,7 +341,7 @@ For each command, you can add arguments using `git-args`.
 
 ```lisp
 (let ((git-args "--hard"))
-  (git-fetch "HEAD"))
+  (git-reset "HEAD"))
 ```
 
 ## Contribution
