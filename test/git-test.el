@@ -531,7 +531,7 @@
   (with-initialized-git-repo
    (f-touch "foo")
    (git-add "foo")
-   (git-stash)
+   (should (equal (git-stash) "stash@{0}"))
    (let ((stash (car (git-stashes))))
      (should (equal (plist-get stash :name) "stash@{0}"))
      (should (equal (plist-get stash :branch) "master"))
@@ -542,7 +542,7 @@
    (f-touch "foo")
    (f-touch "bar")
    (git-add "bar")
-   (git-stash "baz")
+   (should (equal (git-stash "baz") "stash@{0}"))
    (let ((stash (car (git-stashes))))
      (should (equal stash '(:name "stash@{0}" :branch "master" :message "baz"))))))
 
@@ -553,7 +553,7 @@
    (git-stash "first")
    (f-touch "bar")
    (git-add "bar")
-   (git-stash "second")
+   (should (equal (git-stash "second") "stash@{0}"))
    (should (equal (git-stashes)
                   '((:name "stash@{0}" :branch "master" :message "second")
                     (:name "stash@{1}" :branch "master" :message "first"))))))
@@ -564,14 +564,19 @@
    (git-checkout "foo")
    (f-touch "bar")
    (git-add "bar")
-   (git-stash "baz")
+   (should (equal (git-stash "baz") "stash@{0}"))
    (let ((stash (car (git-stashes))))
      (should (equal stash '(:name "stash@{0}" :branch "foo" :message "baz"))))))
+
+(ert-deftest git-stash-test/no-changes ()
+  (with-initialized-git-repo
+   (f-touch "foo")
+   (should-not (git-stash "bar"))))
 
 
 ;;;; git-stash-pop
 
-(ert-deftest git-stash-pop/single-stash ()
+(ert-deftest git-stash-pop-test/single-stash ()
   (with-initialized-git-repo
    (f-touch "foo")
    (git-add "foo")
@@ -581,7 +586,7 @@
    (should (equal (git-staged-files) '("foo")))
    (should-not (git-stashes))))
 
-(ert-deftest git-stash-pop/multiple-stashes ()
+(ert-deftest git-stash-pop-test/multiple-stashes ()
   (with-initialized-git-repo
    (f-touch "foo")
    (git-add "foo")
@@ -594,7 +599,7 @@
    (should (equal (git-staged-files) '("bar")))
    (should (equal (git-stashes) '((:name "stash@{0}" :branch "master" :message "first"))))))
 
-(ert-deftest git-stash-pop/by-name ()
+(ert-deftest git-stash-pop-test/by-name ()
   (with-initialized-git-repo
    (f-touch "foo")
    (git-add "foo")
@@ -603,14 +608,14 @@
    (git-add "bar")
    (git-stash "second")
    (should-not (git-staged-files))
-   (git-stash-pop "first")
+   (git-stash-pop "stash@{1}")
    (should (equal (git-staged-files) '("foo")))
    (should (equal (git-stashes) '((:name "stash@{0}" :branch "master" :message "second"))))))
 
 
 ;;;; git-stash-apply
 
-(ert-deftest git-stash-apply/single-stash ()
+(ert-deftest git-stash-apply-test/single-stash ()
   (with-initialized-git-repo
    (f-touch "foo")
    (git-add "foo")
@@ -620,7 +625,7 @@
    (should (equal (git-staged-files) '("foo")))
    (should (equal (git-stashes) '((:name "stash@{0}" :branch "master" :message "bar"))))))
 
-(ert-deftest git-stash-apply/multiple-stashes ()
+(ert-deftest git-stash-apply-test/multiple-stashes ()
   (with-initialized-git-repo
    (f-touch "foo")
    (git-add "foo")
@@ -634,7 +639,7 @@
    (should (equal (git-stashes) '((:name "stash@{0}" :branch "master" :message "second")
                                   (:name "stash@{1}" :branch "master" :message "first"))))))
 
-(ert-deftest git-stash-apply/by-name ()
+(ert-deftest git-stash-apply-test/by-name ()
   (with-initialized-git-repo
    (f-touch "foo")
    (git-add "foo")
@@ -643,7 +648,7 @@
    (git-add "bar")
    (git-stash "second")
    (should-not (git-staged-files))
-   (git-stash-apply "first")
+   (git-stash-apply "stash@{1}")
    (should (equal (git-staged-files) '("foo")))
    (should (equal (git-stashes) '((:name "stash@{0}" :branch "master" :message "second")
                                   (:name "stash@{1}" :branch "master" :message "first"))))))

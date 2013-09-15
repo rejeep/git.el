@@ -209,9 +209,16 @@ If BARE is true, create a bare repo."
 To remove directory, use RECURSIVE argument."
   (git-run "rm" path (and recursive "-r")))
 
-(defun git-stash (&optional name)
-  "Stash!"
-  (git-run "stash" "save" "--" name))
+(defun git-stash (&optional message)
+  "Stash changes in a dirty tree with MESSAGE.
+
+If a stash was created, the name of the stash is returned,
+otherwise nil is returned."
+  (let ((before-stashes (git-stashes)) after-stashes)
+    (git-run "stash" "save" message)
+    (setq after-stashes (git-stashes))
+    (if (> (length after-stashes) (length before-stashes))
+        (plist-get (car after-stashes) :name))))
 
 (defun git-stashes ()
   "Return list of stashes."
@@ -224,13 +231,13 @@ To remove directory, use RECURSIVE argument."
                :message (nth 3 matches))))
      stashes)))
 
-(defun git-stash-pop (&optional message)
-  "Apply and remove stash with MESSAGE (or first stash)."
-  (git-run "stash" "pop" (git--stash-find message)))
+(defun git-stash-pop (&optional name)
+  "Apply and remove stash with NAME (or first stash)."
+  (git-run "stash" "pop" name))
 
-(defun git-stash-apply (&optional message)
-  "Apply and keep stash with MESSAGE (or first stash)."
-  (git-run "stash" "apply" (git--stash-find message)))
+(defun git-stash-apply (&optional name)
+  "Apply and keep stash with NAME (or first stash)."
+  (git-run "stash" "apply" name))
 
 (defun git-tag (tag)
   "Create TAG."
@@ -260,14 +267,6 @@ To remove directory, use RECURSIVE argument."
 
 (defun git--clean (string)
   (s-presence (s-trim string)))
-
-(defun git--stash-find (message)
-  (plist-get
-   (-first
-    (lambda (stash)
-      (equal (plist-get stash :message) message))
-    (git-stashes))
-   :name))
 
 (defun git--args (command &rest args)
   (-flatten (-reject 'null (append (list "--no-pager" command) args git-args))))

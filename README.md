@@ -256,7 +256,10 @@ To remove directory, use RECURSIVE argument.
 
 ### git-stash `(&optional name)`
 
-Stash!
+Stash changes in a dirty tree with MESSAGE.
+
+If a stash was created, the name of the stash is returned,
+otherwise nil is returned.
 
 ```lisp
 (git-stash)
@@ -265,7 +268,7 @@ Stash!
 
 ### git-stash-pop `(&optional message)`
 
-Apply and remove stash with MESSAGE (or first stash).
+Apply and remove stash with NAME (or first stash).
 
 ```lisp
 (git-stash-pop)
@@ -274,7 +277,7 @@ Apply and remove stash with MESSAGE (or first stash).
 
 ### git-stash-apply `(&optional message)`
 
-Apply and keep stash with MESSAGE (or first stash).
+Apply and keep stash with NAME (or first stash).
 
 ```lisp
 (git-stash-apply)
