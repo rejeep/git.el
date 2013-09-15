@@ -42,9 +42,9 @@ Add `git` to your [Cask](https://github.com/cask/cask) file:
 * [git-remote-remove](#git-remote-remove-name) `(name)`
 * [git-reset](#git-reset-optional-commit-mode) `(&optional commit mode)`
 * [git-rm](#git-rm-path) `(path)`
-* [git-stash](#git-stash-optional-name) `(&optional name)`
-* [git-stash-pop](#git-stash-pop-optional-message) `(&optional message)`
-* [git-stash-apply](#git-stash-apply-optional-message) `(&optional message)`
+* [git-stash](#git-stash-optional-message) `(&optional message)`
+* [git-stash-pop](#git-stash-pop-optional-name) `(&optional name)`
+* [git-stash-apply](#git-stash-apply-optional-name) `(&optional name)`
 * [git-tag](#git-tag-tag) `(tag)`
 
 ## Non local
@@ -254,7 +254,7 @@ To remove directory, use RECURSIVE argument.
 (git-rm "bar" :recursive)
 ```
 
-### git-stash `(&optional name)`
+### git-stash `(&optional message)`
 
 Stash changes in a dirty tree with MESSAGE.
 
@@ -266,22 +266,22 @@ otherwise nil is returned.
 (git-stash "foo")
 ```
 
-### git-stash-pop `(&optional message)`
+### git-stash-pop `(&optional name)`
 
 Apply and remove stash with NAME (or first stash).
 
 ```lisp
 (git-stash-pop)
-(git-stash-pop "foo")
+(git-stash-pop "stash@{3}")
 ```
 
-### git-stash-apply `(&optional message)`
+### git-stash-apply `(&optional name)`
 
 Apply and keep stash with NAME (or first stash).
 
 ```lisp
 (git-stash-apply)
-(git-stash-apply "foo")
+(git-stash-apply "stash@{3}")
 ```
 
 ### git-tag `(tag)`
