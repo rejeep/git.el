@@ -146,7 +146,8 @@ STRING is a `format' string, and ARGS are the formatted objects."
   "Create new Git repo at DIR (or `git-repo').
 
 If BARE is true, create a bare repo."
-  (git-run "init" (and bare "--bare")))
+  (let ((git-repo (or dir git-repo)))
+    (git-run "init" (and bare "--bare"))))
 
 ;; Todo: The solution used here is not bulletproof. For example if the
 ;; message contains a pipe, the :message will only include everything

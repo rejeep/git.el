@@ -16,6 +16,12 @@
    (git-init git-sandbox-path :bare)
    (should (git-repo? git-sandbox-path))))
 
+(ert-deftest git-init-test/without-git-repo ()
+  (with-sandbox
+   (let (git-repo)
+     (git-init git-sandbox-path :bare))
+   (should (git-repo? git-sandbox-path))))
+
 
 ;;;; git-untracked-files
 
