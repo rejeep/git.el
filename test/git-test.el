@@ -348,7 +348,7 @@
 (ert-deftest git-fetch-test/no-repo ()
   "Hard to test..."
   (with-mock
-   (mock (git-run "fetch"))
+   (mock (git-run "fetch" nil))
    (git-fetch)))
 
 (ert-deftest git-fetch-test/with-repo ()
